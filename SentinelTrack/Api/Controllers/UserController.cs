@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SentinelTrack.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using SentinelTrack.Application.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SentinelTrack.Api.Controllers;
 
@@ -50,6 +51,7 @@ public class UserController : ControllerBase
     /// <param name="request">Dados do usuário para criação</param>
     /// <returns>Usuário criado</returns>
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] UserRequest request)
     {
         var created = await _userService.CreateAsync(request);
@@ -63,6 +65,7 @@ public class UserController : ControllerBase
     /// <param name="request">Dados do usuário para atualização</param>
     /// <returns>Confirmação do usuário atualizado</returns>
     [HttpPut("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid id, [FromBody] UserRequest request)
     {
         var updated = await _userService.UpdateAsync(id, request);
@@ -76,6 +79,7 @@ public class UserController : ControllerBase
     /// <param name="id">Id do usuário a ser deletado</param>
     /// <returns>Confirmação do usuário removido</returns>
     [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid id)
     {
         var deleted = await _userService.DeleteAsync(id);

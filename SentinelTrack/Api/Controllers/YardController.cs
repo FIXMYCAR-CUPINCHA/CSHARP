@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SentinelTrack.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using SentinelTrack.Application.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SentinelTrack.Api.Controllers;
 
@@ -49,6 +50,7 @@ public class YardController : ControllerBase
     /// <param name="request">Dados do pátio para criação</param>
     /// <returns>Pátio criado</returns>
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] YardRequest request)
     {
         var created = await _yardService.CreateAsync(request);
@@ -62,6 +64,7 @@ public class YardController : ControllerBase
     /// <param name="request">Dados do pátio para atualização</param>
     /// <returns>Confirmação do pátio atualizado</returns>
     [HttpPut("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid id, [FromBody] YardRequest request)
     {
         var updated = await _yardService.UpdateAsync(id, request);
@@ -75,6 +78,7 @@ public class YardController : ControllerBase
     /// <param name="id">Id do pátio a ser deletado</param>
     /// <returns>Confirmação do pátio removido</returns>
     [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid id)
     {
         var deleted = await _yardService.DeleteAsync(id);

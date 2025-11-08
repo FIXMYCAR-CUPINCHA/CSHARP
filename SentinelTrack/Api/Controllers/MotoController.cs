@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SentinelTrack.Application.DTOs.Request;
 using SentinelTrack.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SentinelTrack.Api.Controllers;
 
@@ -55,6 +56,7 @@ public class MotoController : ControllerBase
     /// <param name="request">Dados da moto para criação</param>
     /// <returns>Moto criado</returns>
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] MotoRequest request)
     {
         var created = await _motoService.CreateAsync(request);
@@ -71,6 +73,7 @@ public class MotoController : ControllerBase
     /// <param name="request">Dados da moto para atualização</param>
     /// <returns>Confirmação da moto atualizada</returns>
     [HttpPut("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid id, [FromBody] MotoRequest request)
     {
         var updated = await _motoService.UpdateAsync(id, request);
@@ -85,6 +88,7 @@ public class MotoController : ControllerBase
     /// <param name="id">Id da moto a ser deletada</param>
     /// <returns>Confirmação da moto removida</returns>
     [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid id)
     {
         var deleted = await _motoService.DeleteAsync(id);

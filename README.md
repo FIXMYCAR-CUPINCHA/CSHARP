@@ -67,6 +67,12 @@ controlar a infraestrutura (pátios), gerenciar os ativos (motocicletas) e regis
 
 ---
 
+### Auth (`/api/v1/auth`)
+
+- **POST /api/v1/auth/token** — Gera um token de autenticação.
+
+---
+
 ## Instruções de Execução
 
 1. Clone o repositório:
@@ -89,6 +95,27 @@ controlar a infraestrutura (pátios), gerenciar os ativos (motocicletas) e regis
 
 5. Caso o Swagger não abra sozinho acesse em:
    https://localhost:5000/swagger/index.html
+
+---
+
+## Autenticação
+Não se esqueça de acessar o endpoint para pegar o token:
+
+https://localhost:5000/api/v1/auth/token
+
+---
+
+## Testes Automatizados com xUnit
+Rodar os testes:
+```
+dotnet test
+```
+
+---
+
+## Url para Health Checks
+
+https://localhost:5000/health
 
 ---
 
@@ -138,10 +165,3 @@ curl -X PUT "http://localhost:5000/api/v1/users/790d6edb-c9d3-4f28-8cdc-ffefc7a1
 curl -X GET "http://localhost:5000/api/v1/yards?page=1&pageSize=10"
 ```
 
----
-
-## Testes Automatizados
-Rodar os testes:
-```
-dotnet test
-```

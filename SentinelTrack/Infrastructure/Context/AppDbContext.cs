@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SentinelTrack.Domain;
+using SentinelTrack.Domain.Entities;
 
 namespace SentinelTrack.Infrastructure.Context
 {

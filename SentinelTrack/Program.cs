@@ -8,7 +8,12 @@ using SentinelTrack.Application.Services;
 using SentinelTrack.Infrastructure.Context;
 using SentinelTrack.Infrastructure.Data;
 using SentinelTrack.Infrastructure.Security;
+using SentinelTrack.Api.Configs;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +35,11 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // ==========================
+// SWAGGER CONFIG
+// ==========================
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
+// ==========================
 // CONTROLLERS
 // ==========================
 builder.Services.AddControllers();
@@ -40,21 +50,8 @@ builder.Services.AddEndpointsApiExplorer();
 // ==========================
 builder.Services.AddSwaggerGen(o =>
 {
-    o.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "API do projeto SentinelTrack",
-        Version = "v1",
-        Description = "API do projeto SentinelTrack do Challenge da Mottu.",
-        Contact = new OpenApiContact
-        {
-            Name = "Thomaz Bartol",
-            Email = "rm555323@fiap.com.br"
-        }
-    });
-
     o.SchemaFilter<RequestExamplesSchemaFilter>();
     o.EnableAnnotations();
-
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     o.IncludeXmlComments(xmlPath);
@@ -83,6 +80,22 @@ builder.Services.AddSwaggerGen(o =>
             new string[] {}
         }
     });
+});
+
+// ==========================
+// API VERSIONING
+// ==========================
+builder.Services.AddApiVersioning(o =>
+{
+    o.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+    o.AssumeDefaultVersionWhenUnspecified = true;
+    o.ReportApiVersions = true;
+    o.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(), new HeaderApiVersionReader("x-api-version"));
+});
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
 });
 
 // ==========================
@@ -125,8 +138,19 @@ builder.Services.AddAuthentication(options =>
 // ==========================
 var app = builder.Build();
 
+// ==========================
+// SWAGGER UI
+// ==========================
+var provider = app.Services.GetRequiredService<Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider>();
+
 app.UseSwagger();
 app.UseSwaggerUI();
+
+// ==========================
+// PIPELINE
+// ==========================
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapHealthChecks("/health");
 app.MapControllers();

@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace SentinelTrack.Api.Controllers;
 
 [ApiController]
-[Route("api/v1/yards")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/yards")]
 [SwaggerTag("Controlador responsável pelo gerenciamento de pátios e suas operações.")]
 public class YardController : ControllerBase
 {

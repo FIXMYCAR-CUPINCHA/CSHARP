@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace SentinelTrack.Api.Controllers;
 
 [ApiController]
-[Route("api/v1/motos")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/motos")]
 [SwaggerTag("Controlador responsável pelo gerenciamento de motos e suas operações.")]
 public class MotoController : ControllerBase
 {

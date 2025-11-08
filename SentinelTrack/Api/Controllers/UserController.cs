@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace SentinelTrack.Api.Controllers;
 
 [ApiController]
-[Route("api/v1/users")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/users")]
 [SwaggerTag("Controlador responsável pelo gerenciamento de usuários e suas operações.")]
 public class UserController : ControllerBase
 {

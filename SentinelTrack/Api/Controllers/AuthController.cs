@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using SentinelTrack.Application.DTOs.Request;
 using SentinelTrack.Application.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SentinelTrack.Api.Controllers
 {
     [ApiController]
-    [Route("api/v1/auth")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/auth")]
+    [SwaggerTag("Controlador responsável por cuidar da autorização.")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -15,6 +18,11 @@ namespace SentinelTrack.Api.Controllers
             _authService = authService;
         }
 
+        /// <summary>
+        /// Gera um token de autenticação
+        /// </summary>
+        /// <param name="request">Usuário e Senha</param>
+        /// <returns>Token gerado</returns>
         [HttpPost("token")]
         public IActionResult Token([FromBody] AuthRequest request)
         {

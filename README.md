@@ -77,8 +77,8 @@ controlar a infraestrutura (pátios), gerenciar os ativos (motocicletas) e regis
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/ThomazBartol/SentinelTrackAPI.git
-   cd SentinelTrackAPI/
+   git clone https://github.com/FIXMYCAR-CUPINCHA/CSHARP.git
+   cd CSHARP/
 
 2. Faça o restore:
    ```bash
